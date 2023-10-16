@@ -240,3 +240,19 @@ vamos até build -> libs e colamos o endereço do arquivo .jar principal
 
 no fim, o Procfile ficará assim:
 web: java -jar build/libs/api-santander-bootcamp-0.0.1-SNAPSHOT.jar
+
+
+depois, precisamod atualizar as varivaveis no postgree:
+settings -> 
+
+PGDATABASE=railway;PGHOST=containers-us-west-207.railway.app;PGPASSWORD=AWJvkOBgOFRUWhWra3Oh;PGPORT=5579;PGUSER=postgres;SPRING_PROFILES_ACTIVE=prd
+
+no fim, ficará assim:
+
+PORT=8080
+PGDATABASE=railway;
+PGHOST=containers-us-west-207.railway.app;
+PGPASSWORD=AWJvkOBgOFRUWhWra3Oh;
+PGPORT=5579;
+PGUSER=postgres;
+SPRING_PROFILES_ACTIVE=${{shared.SPRING_PROFILES_ACTIVE}}

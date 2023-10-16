@@ -27,7 +27,7 @@ dependencies {
 
 tasks.jar {
 	manifest {
-		attributes["Main-Class"] = "dio.apisantanderbootcamp.Application"
+		attributes 'Main-Class': "dio.apisantanderbootcamp.Application"
 	}
 }
 
