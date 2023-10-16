@@ -41,3 +41,8 @@ classDiagram
   User "1" *-- "N" News
 
 ```
+
+## Essa API REST foi a minha primeira a subir na nuvem (Railway). Um grande momento.
+<h3> Você pode visualizar e testar <a href="https://api-bank-santander-production.up.railway.app/swagger-ui.html"> aqui. </a>
+<p> Para informações e alguns detalhes, leia o arquivo "Documentação.txt". </p>
+<h2> Até mais! ;) </h2>
