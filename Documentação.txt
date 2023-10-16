@@ -250,9 +250,26 @@ PGDATABASE=railway;PGHOST=containers-us-west-207.railway.app;PGPASSWORD=AWJvkOBg
 no fim, ficará assim:
 
 PORT=8080
-PGDATABASE=railway;
-PGHOST=containers-us-west-207.railway.app;
-PGPASSWORD=AWJvkOBgOFRUWhWra3Oh;
-PGPORT=5579;
-PGUSER=postgres;
+PGDATABASE=railway
+PGHOST=containers-us-west-207.railway.app
+PGPASSWORD=AWJvkOBgOFRUWhWra3Oh
+PGPORT=5579
+PGUSER=postgres
 SPRING_PROFILES_ACTIVE=${{shared.SPRING_PROFILES_ACTIVE}}
+
+
+*** HOTFIX
+
+Correção do CORS: 
+
+package dio.apisantanderbootcamp;
+
+@OpenAPIDefinition(servers = {@Server(url = "/", description = "Default Server URL")})
+@SpringBootApplication
+public class Application {
+
+	public static void main(String[] args) {
+		SpringApplication.run(Application.class, args);
+	}
+
+}
