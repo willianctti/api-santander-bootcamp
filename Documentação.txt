@@ -73,3 +73,138 @@ spring:
       settings:
         trace: false
         web-allow-others: false
+
+
+
+
+Hotfix no trecho `precision = 13, scale = 2`
+
+
+
+
+camada de serviço
+
+criação das packages de implementação
+Na nossa camada principal defino os métodos iniciais:
+
+public interface UserService {
+    User findById(Long id);
+    User create(User userToCreate);
+}
+
+
+na classe de implementação encapsulada defino os métodos:
+
+public class UserServiceImpl implements UserService {
+    @Override
+    public User findById(Long id) {
+        return null;
+    }
+
+    @Override
+    public User create(User userToCreate) {
+        return null;
+    }
+}
+
+e definimos a annotation para ela ser tratada como um service
+
+
+
+
+
+
+
+Controller. Camada de entrada para nossa aplicação:
+
+primeiramente defini o rest controler e o request mapping com o endereço 
+desejado
+@RestController
+@RequestMapping("/users")
+public class UserController {
+}
+
+
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<User> findById(@PathVariable Long id) {
+        var user = userService.findById(id);
+        return ResponseEntity.ok(user);
+    }
+
+    @PostMapping
+    public ResponseEntity<User> create(@RequestBody User userToCreate) {
+        var userCreated = userService.create(userToCreate);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(userCreated.getId())
+                .toUri();
+        return ResponseEntity.created(location).body(userCreated);
+    }
+}
+
+
+
+também instalei a dependecia do swagger para testar nossa API
+	// OpenAPI
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
+
+
+
+
+
+
+
+Tratamento de erros;		Usamos o RestCOnrollerAdvice
+
+package dio.apisantanderbootcamp.controller.exception;
+
+
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+    
+}
+
+
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    private final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handle(IllegalArgumentException businessException) {
+        return new ResponseEntity<>(businessException.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<String> handle(NoSuchElementException notFound) {
+        return new ResponseEntity<>("Resource ID not found", HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(Throwable.class)
+    public ResponseEntity<String> handleUnexpectedException(Throwable unexpectedException) {
+        var message = "Unexpected Server Error";
+        logger.error(message, unexpectedException);
+        return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+
+
+	
+
+
+
+
+		Puublicando a API na nuvem
+
+
