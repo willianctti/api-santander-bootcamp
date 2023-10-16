@@ -207,4 +207,36 @@ public class GlobalExceptionHandler {
 
 		Puublicando a API na nuvem
 
+Depois de inicializar o Railway com o PostgreSQL, criamos um novo arquivo
+yml chamado application-prod:
 
+spring:
+  datasource:
+    url: jdbc:postgresql://${PGHOST}:${PGPORT}/${PGDATABASE}
+    username: ${PGUSER}
+    password: ${PGPASSWORD}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+
+
+para finalizar e subir nossa api para nuvem precisamos também alterar
+o tasks.jar na build.gradle:
+
+tasks.jar {
+	manifest {
+		attributes["Main-Class"] = "dio.apisantanderbootcamp.Application"
+	}
+}
+
+
+
+criamos, também, na raiz do projeto um aquivo com o nome "Procfile"
+vamos até o gradle -> build e rodamos o bootJar
+
+vamos até build -> libs e colamos o endereço do arquivo .jar principal
+
+
+no fim, o Procfile ficará assim:
+web: java -jar build/libs/api-santander-bootcamp-0.0.1-SNAPSHOT.jar

@@ -1,0 +1,1 @@
+web: java -jar build/libs/api-santander-bootcamp-0.0.1-SNAPSHOT.jar
