@@ -1,0 +1,75 @@
+@Entity(name = "tb_user")
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Account account;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Card card;
+    private List<Feature> features;
+    private List<News> news;
+
+
+Utilizamos a annotation one to one para definir fixamente a account e o card ao
+User
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Feature> features;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<News> news;
+
+e as list com many pois serão listas
+
+
+como a classe feature e news tem, basicamente, o mesmo código, criei uma 
+classe abstrata com a annotation @MappedSuperClass que fará que feature e 
+news extendam dessa classe.
+
+
+
+
+
+
+
+
+criei também um novo package para a Repository com JPA que facilita totalmente
+nosso CRUD.
+
+package dio.apisantanderbootcamp.domain.repository;
+
+import dio.apisantanderbootcamp.domain.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+}
+
+
+
+
+
+
+configurando o application-dev.yml:
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:sdw2023
+    username: sdw2023
+    password:
+  jpa:
+    show-sql: true
+    open-in-view: false
+    hibernate:
+      ddl-auto: create # validate / update / create /create-drop
+    properties:
+      hibernate:
+        format_sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: false
+        web-allow-others: false
